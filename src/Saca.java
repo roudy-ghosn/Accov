@@ -83,14 +83,16 @@ public class Saca extends Thread {
 
 		public boolean controller_action(String request) {
 			controlleur = request.substring(0, request.indexOf("/"));
-			action = request.substring(request.indexOf("/") + 1,
-					request.indexOf("="));
+			if (request.contains("fini"))
+				action = request.substring(request.indexOf("/") + 1,
+						request.length());
+			else
+				action = request.substring(request.indexOf("/") + 1,
+						request.indexOf("="));
 
-			if (request.contains("fini")) {
-				System.out.println("FINI");
+			if ("fini".equals(action)) {
 				avionsControle.remove(controlleur);
 			} else if ("avion".equals(action)) {
-				System.out.println("AVION");
 				numeroVol = request.substring(request.indexOf("=") + 1,
 						request.length());
 				if (avions.get(numeroVol) == null) {
@@ -108,7 +110,6 @@ public class Saca extends Thread {
 					avionsControle.put(controlleur, avions.get(numeroVol));
 				}
 			} else {
-				System.out.println("ELSE");
 				try {
 					valeur = Integer.parseInt((request.substring(
 							request.indexOf("=") + 1, request.length())));
@@ -159,8 +160,12 @@ public class Saca extends Thread {
 				while (true) {
 					sleep(1500);
 					if (check_collision()) {
-						System.out.println("A possible collision was detected !!");
+						System.out
+								.println("A possible collision was detected !!");
+						this.stop();
 					} else {
+						System.out
+								.println("--------------------------------------------");
 						for (String key : avions.keySet()) {
 							System.out.println(avions.get(key)
 									.afficher_donnees());
@@ -181,8 +186,10 @@ public class Saca extends Thread {
 						&& avions.get(key).getCoordonnes().getY() == avions
 								.get(key2).getCoordonnes().getY()
 						&& avions.get(key).getCoordonnes().getAltitude() == avions
-								.get(key2).getCoordonnes().getAltitude())
+								.get(key2).getCoordonnes().getAltitude()
+						&& key != key2) {
 					return true;
+				}
 			}
 		}
 		return false;

@@ -25,32 +25,33 @@ public class Controlleur extends Thread {
 			out = new PrintWriter(socket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(
 					socket.getInputStream()));
-			
-			while(reponse == null || reponse.contains("Erreur")){
-				System.out.print("Please enter the flight Number : ");
+
+			while (avion == null) {
+				System.out
+						.print("Please enter the flight Number composed of 5 characters : ");
 				line = read.readLine();
-				if (line != null && line.length() == 5)
+				if (line != null && line.length() == 5) {
 					out.println(id + "/avion=" + line);
-				else 
-					System.out.print("Please re-enter a flight Number composed of 5 characters : ");
-				reponse = in.readLine();
-				System.out.println(reponse);
+					reponse = in.readLine();
+					System.out.println(reponse);
+					if (!reponse.contains("Erreur"))
+						avion = line;
+				}
 			}
-			
-			avion = line;
-			
-			System.out.println("Avalaible actions : vitesse, cap, altitude, fini ");
-			
+
+			System.out.println("Avalaible actions : \nvitesse=value \ncap=value \naltitude=value \nfini");
+
 			while (true) {
 				System.out.print("Please enter the action for the flight "
-						+ avion + " (Example vitesse=500) : ");
+						+ avion + ":");
 				line = read.readLine();
 				out.println(id + "/" + line);
 				reponse = in.readLine();
 				if (reponse != null)
 					System.out.println(reponse);
-				if (line == "fini")
-					Thread.interrupted();
+				if ("fini".equals(line)) {
+					System.exit(0);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

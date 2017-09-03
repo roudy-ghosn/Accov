@@ -1,6 +1,6 @@
 # Accov
-SACA Java Project:
+Projet SACA:
 
-Steps to run SACA project :
+Étapes pour lancer le projet SACA :
 1- Run Radar.java
-2- Run Controllers (ControlleurTest1.java / ControlleurTest2.java) - Each controller must be opened in a different console
+2- Run Controlleur (ControlleurTest1.java / ControlleurTest2.java) - Chaque Controlleur doit être ouvert dans une console différente
